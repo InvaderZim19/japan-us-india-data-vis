@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html> 
+  <head>
+    <!-- Meta Tag -->
+    <meta charset="utf-8">
+    <!-- CSS Stylesheet -->
+    <style type="text/css">
+        svg {
+    	   font: 10px sans-serif;
+    	}
+
+    	.caption {
+    	  font-weight: bold;
+    	}
+
+    	.key path {
+    	  display: none;
+    	}
+
+    	.key line {
+    	  stroke: #000;
+    	  shape-rendering: crispEdges;
+    	}
+
+    	.county-border {
+    	  fill: none;
+    	  stroke: #000;
+    	  stroke-opacity: .3;
+    	}
+            
+        .state-border {
+          fill: none;
+          stroke: #000;
+          stroke-opacity: 1;
+        }
+      
+        .tract-border {
+          fill: none;
+          stroke: #000;
+          stroke-opacity: .3;
+        }
+    </style>
+  </head>
+  <body>
+  	<script type= "text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <h1 style = "text-align:center; color:#556B2F"><bold> Japan-US-India Data Visualization (wip) </bold></h1>
+    <!-- Your D3.js code for making a Bar Graph -->
+    <script type="text/javascript">
+      
+        // svg dimensions
+    	var width = 960,
+    		height = 900;
+        
+        // comma formatting
+		var formatNumber = d3.format(",d");
+
+        // map path
+		var path = d3.geo.path()
+		    .projection(null);
+      
+        // creating one set of colors
+		var color = d3.scale.threshold()
+		    .domain([1, 10, 50, 100, 500, 1000, 2000, 5000])
+		    .range(["#fee8c8", "#fdd49e", "#fdbb84", "#fc8d59", "#ef6548", "#d7301f", "#b30000", "#7f0000"]);
+
+		// A position encoding for the key only.
+		var x = d3.scale.linear()
+		    .domain([0, 5100])
+		    .range([0, 480]);
+      
+        // creates the xaxis for the legend
+		var xAxis = d3.svg.axis()
+		    .scale(x)
+		    .orient("bottom")
+		    .tickSize(13)
+		    .tickValues(color.domain())
+		    .tickFormat(function(d) { return d >= 100 ? formatNumber(d) : null; });
+        
+        // attaches the svg with the d3
+		var svg = d3.select("body").append("svg")
+		    .attr("width", width)
+		    .attr("height", height);
+      
+        // changes the position of the key
+		var g = svg.append("g")
+		    .attr("class", "key")
+		    .attr("transform", "translate(20,850)");
+        
+
+    </script>
+    
+    
+    <!-- Submission Info -->
+    <div id="context"></div>
+    <h4>Created by Karl Cassel and Amado Rubalcava</h4>
+      
+    <h4>Description: A visualization of the population density in Vermont. </h4>
+      
+    <h4> Sources: </h4>
+    <ul>
+      <li> <a href=""></a></li>
+    </ul>
+      
+  </body>
+</html>
