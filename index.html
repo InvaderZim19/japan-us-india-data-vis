@@ -88,14 +88,16 @@
 		    .attr("transform", "translate(20,850)");
        d3.json("IND_adm_topo.json", function(error, IND_adm_topo) {
           if (error) throw error;
+          console.log(IND_adm_topo);
+          console.log(IND_adm_topo.objects);
 
-          var tracts = topojson.feature(IND_adm_topo, IND_adm_topo.objects.geometries);// the current error check command log
+          var tracts = topojson.feature(IND_adm_topo, IND_adm_topo.objects);
 
          // Clip tracts to land.
         svg.append("defs").append("clipPath")
             .attr("id", "clip-land")
             .append("path")
-            .datum(topojson.feature(IND_adm_topo, IND_adm_topo.objects.districts))
+            .datum(topojson.feature(IND_adm_topo, IND_adm_topo.objects.IND_adm0))
             .attr("d", path);
             
         // Group tracts by color for faster rendering.
