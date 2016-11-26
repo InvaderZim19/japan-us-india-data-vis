@@ -44,6 +44,7 @@
   <body>
   	<script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
     <h1 style = "text-align:center; color:#556B2F"><bold> Japan-US-India Data Visualization (wip) </bold></h1>
     <!-- Your D3.js code for making a Bar Graph -->
     <script type="text/javascript">
@@ -86,38 +87,69 @@
 		var g = svg.append("g")
 		    .attr("class", "key")
 		    .attr("transform", "translate(20,850)");
-       d3.json("IND_adm_topo.json", function(error, IND_adm_topo) {
+      
+        // creating a queue to put in data first, then the map
+        // then wait for the function 
+        var queue = d3.queue();
+        queue
+          .defer(d3.csv, "Pop_India.csv")
+          .defer(d3.csv, "Pop_USA.csv")
+          .defer(d3.csv, "Pop_Japan_2015.csv")
+          .defer(d3.json, "IND_adm_topo.json")
+          .defer(d3.json, "USA_adm_topo.json")
+          .defer(d3.json, "JPN_adm_topo.json")
+          .await(analyzeIndiaData, analyzeUSAData, analyzeJapanData);
+          
+        function analyzeIndiaData(error, data, map) {
           if (error) throw error;
-          console.log(IND_adm_topo);
-          console.log(IND_adm_topo.objects);
-
-          var tracts = topojson.feature(IND_adm_topo, IND_adm_topo.objects);
-
-         // Clip tracts to land.
-        svg.append("defs").append("clipPath")
-            .attr("id", "clip-land")
-            .append("path")
-            .datum(topojson.feature(IND_adm_topo, IND_adm_topo.objects.IND_adm0))
-            .attr("d", path);
-            
-        // Group tracts by color for faster rendering.
-        svg.append("g")
-            .attr("class", "tract")
-            .attr("clip-path", "url(#clip-land)")
-            .selectAll("path")
-            .data(d3.nest()
-            .key(function(d) { return color(d.properties.population / d.properties.area * 2.58999e6); })
-            .entries(geometries.features.filter(function(d) { return d.properties.area; })))
-            .enter().append("path")
-            .style("fill", function(d) { return d.key; })
-            .attr("d", function(d) { return path({type: "FeatureCollection", features: d.values}); });
-
-        // Draw county borders.
-       // svg.append("path")
-          //  .datum(topojson.mesh(IND_adm_topo, IND_adm_topo.objects.counties, function(a, b) { return a !== b; }))
-           // .attr("class", "county-border")
-           // .attr("d", path);
-        });
+          
+          
+        }
+        
+        function analyzeUSAData(error, data, map) {
+          if (error) throw error;
+          
+          
+        }
+        
+        function analyzeJapanData(error, data, map) {
+          if (error) throw error;
+          
+          
+        }
+      
+//       d3.json("IND_adm_topo.json", function(error, IND_adm_topo) {
+//          if (error) throw error;
+//          console.log(IND_adm_topo);
+//          console.log(IND_adm_topo.objects);
+//
+//          var tracts = topojson.feature(IND_adm_topo, IND_adm_topo.objects);
+//          console.log(tracts);
+//         // Clip tracts to land.
+//        svg.append("defs").append("clipPath")
+//            .attr("id", "clip-land")
+//            .append("path")
+//            .datum(topojson.feature(IND_adm_topo, IND_adm_topo.objects.IND_adm1))
+//            .attr("d", path);
+//            
+//        // Group tracts by color for faster rendering.
+//        svg.append("g")
+//            .attr("class", "tract")
+//            .attr("clip-path", "url(#clip-land)")
+//            .selectAll("path")
+//            .data(d3.nest()
+//            .key(function(d) { return color(d.properties.population / d.properties.area * 2.58999e6); })
+//            .entries(IND_adm1.geometries.features.filter(function(d) { return d.properties.area; })))
+//            .enter().append("path")
+//            .style("fill", function(d) { return d.key; })
+//            .attr("d", function(d) { return path({type: "Feature", features: d.values}); });
+//
+//        // Draw county borders.
+//       // svg.append("path")
+//          //  .datum(topojson.mesh(IND_adm_topo, IND_adm_topo.objects.counties, function(a, b) { return a !== b; }))
+//           // .attr("class", "county-border")
+//           // .attr("d", path);
+//        });
       
         d3.select(self.frameElement).style("height", height + "px"); 
 
@@ -128,11 +160,11 @@
     <div id="context"></div>
     <h4>Created by Karl Cassel and Amado Rubalcava</h4>
       
-    <h4>Description: A visualization of the population density in Vermont. </h4>
+    <h4>Description: A visualization of (wip) </h4>
       
     <h4> Sources: </h4>
     <ul>
-      <li> <a href=""></a></li>
+      <li> <a href="http://learnjsdata.com/read_data.html">How we read mutliple pieces of data.</a></li>
     </ul>
       
   </body>
