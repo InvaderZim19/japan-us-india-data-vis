@@ -51,6 +51,9 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <script src="https://d3js.org/d3-array.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v1.min.js"></script>
     <h1 style = "text-align:center; color:#556B2F"><bold> Japan-US-India Data Visualization (wip) </bold></h1>
     <!-- Your D3.js code for making a Bar Graph -->
     <script type="text/javascript">
@@ -58,16 +61,24 @@
       var svg = d3.select("svg"),
           width = +svg.attr("width"),
           height = +svg.attr("height");
+        
+        var scaleVal = 0.5;
+        
+      var projection = d3.geoMercator()
+      .scale(500)
+                        .center([44, 26]);
+//                        .scale(1 / (Math.PI*2))//        
+//        .translate([width/2, height/2]);
 
-      var path = d3.geoPath();
+      var path = d3.geoPath(projection);
 
       var color = d3.scaleThreshold()
           .domain([1, 10, 50, 200, 500, 1000, 2000, 4000])
           .range(d3.schemeOrRd[9]);
 
-      var x = d3.scaleSqrt()
-          .domain([0, 4500])
-          .rangeRound([440, 950]);
+      //var x = d3.scaleSqrt()
+          //.domain([0, 4500])
+          //.rangeRound([440, 950]);
 
       var g = svg.append("g")
           .attr("class", "key")
@@ -91,7 +102,7 @@
         .enter().append("path")
         .style("fill", function(d) { return d.key; })
         .attr("d", function(d) { return path({type: "FeatureCollection", features: d.values}); });
-
+          
 //        svg.append("path")
 //            .datum(topojson.feature(topology, topology.arcs))
 //            .attr("fill", "none")
