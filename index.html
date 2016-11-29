@@ -73,18 +73,24 @@
           .attr("class", "key")
           .attr("transform", "translate(0,40)");
 
-      d3.json("India.json", function(error, topology) {
+      d3.json("India.json", function(error, India) {
         if (error) throw error;
-        console.log(topology);
-        console.log(topology.objects);
-        console.log(topology.arcs);
+        console.log(India);
+        console.log(India.objects);
+        console.log(India.arcs);
+          
+      var tracts = topojson.feature(India, India.objects.IND_adm1)
 
-        svg.append("g")
-          .selectAll("path")
-          .data(topojson.feature(topology, topology.objects.IND_adm1.geometries))
-          .enter().append("path")
-            .attr("fill", function(d) { return color(d.properties.density); })
-            .attr("d", path);
+       svg.append("g")
+        .attr("class", "tract")
+        .attr("clip-path", "url(#clip-land)")
+        .selectAll("path")
+        .data(d3.nest()
+        .key(function(d) { return color(d.properties.ID_1 / d.properties.Shape_Area * 2.58999e6); })
+        .entries(tracts.features.filter(function(d) { return d.properties.Shape_Area; })))
+        .enter().append("path")
+        .style("fill", function(d) { return d.key; })
+        .attr("d", function(d) { return path({type: "FeatureCollection", features: d.values}); });
 
 //        svg.append("path")
 //            .datum(topojson.feature(topology, topology.arcs))
