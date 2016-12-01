@@ -8,20 +8,16 @@
         svg {
     	   font: 10px sans-serif;
     	}
-
     	.caption {
     	  font-weight: bold;
     	}
-
     	.key path {
     	  display: none;
     	}
-
     	.key line {
     	  stroke: #000;
     	  shape-rendering: crispEdges;
     	}
-
     	.county-border {
     	  fill: none;
     	  stroke: #000;
@@ -40,7 +36,6 @@
           stroke-opacity: .3;
         }
         .path {
-
         }
     </style>
   </head>
@@ -52,7 +47,7 @@
 -->
     
     <h1 style = "text-align:center; color:#E57373"><bold> Japan-US-India Data Visualization (wip) </bold></h1>
-    <svg width="1000" height="1100"></svg>
+    <svg width="1000" height="500"></svg>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
     <script src="https://d3js.org/topojson.v2.min.js"></script>
@@ -63,13 +58,13 @@
     <script type="text/javascript">
       
       var svg = d3.select("svg"),
-          width = +svg.attr("width"),
-          height = +svg.attr("height");
+          width = 1100;
+          height = 500;
         
         var scaleVal = 0.5;
         
       var projectionIND = d3.geoMercator()
-          .scale(400)
+          .scale(450)
           .center([70, 26])
           .translate([width / 2, height / 2]);
       
@@ -79,38 +74,32 @@
           .translate([width / 2, height / 2]);
       
       var projectionJPN = d3.geoMercator()
-          .scale(500)
-          .center([100, 39])
+          .scale(600)
+          .center([110, 39])
           .translate([width / 2, height / 2]);
-
       var pathIND = d3.geoPath(projectionIND);
       var pathUSA = d3.geoPath(projectionUSA);
       var pathJPN = d3.geoPath(projectionJPN);
-
       var color = d3.scaleThreshold()
-          .domain([1, 10, 50, 200, 500, 1000, 2000, 4000])
-          .range(d3.schemeOrRd[9]);
-
+          .domain([ 0, 10, 20, 30, 40, 50])
+          .range(d3.schemeBlues[9]);
       var g = svg.append("g")
           .attr("class", "key")
           .attr("transform", "translate(0,40)");
       
       d3.json("India.json", function(error, map) {
         if (error) throw error;
-
         var tracts = topojson.feature(map, map.objects.IND_adm1);
-
          svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
           .selectAll("path")
           .data(d3.nest()
-          .key(function(d) { return color(d.properties.ID_1 / d.properties.Shape_Area * 2.58999e6); })
-          .entries(tracts.features.filter(function(d) { return d.properties.Shape_Area; })))
+          .key(function(d) { return color((d.properties.percentage+11)*(50/61)); })
+          .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathIND({type: "FeatureCollection", features: d.values}); });
-
         svg.append("path")
             .datum(topojson.feature(map, map.arcs))
             .attr("fill", "none")
@@ -118,25 +107,22 @@
             .attr("stroke-opacity", 0.3)
             .attr("d", pathIND);
       });
-
       d3.json("USA.json", function(error, map) {
         if (error) throw error;
-
         var tracts = topojson.feature(map, map.objects.USA_adm1);
-
-         svg.append("g")
+        console.log(map)
+          svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
           .selectAll("path")
           .data(d3.nest()
-          .key(function(d) { return color(d.properties.ID_1 / d.properties.Shape_Area * 2.58999e6); })
-          .entries(tracts.features.filter(function(d) { return d.properties.Shape_Area; })))
+          .key(function(d) { return color((d.properties.percentage +11)*(50/61)); })
+          .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathUSA({type: "FeatureCollection", features: d.values}); });
-
         svg.append("path")
-            .datum(topojson.feature(map, map.arcs))
+            .datum(topojson.feature(map, map.geometries))
             .attr("fill", "none")
             .attr("stroke", "#000")
             .attr("stroke-opacity", 0.3)
@@ -145,25 +131,22 @@
       
       d3.json("Japan.json", function(error, map) {
         if (error) throw error;
-
         var tracts = topojson.feature(map, map.objects.JPN_adm1);
-
          svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
           .selectAll("path")
           .data(d3.nest()
-          .key(function(d) { return color(d.properties.ID_1 / d.properties.Shape_Area * 2.58999e6); })
-          .entries(tracts.features.filter(function(d) { return d.properties.Shape_Area; })))
+          .key(function(d) { return color((d.properties.percentage +11)*(50/61)); })
+          .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathJPN({type: "FeatureCollection", features: d.values}); });
-
         svg.append("path")
             .datum(topojson.feature(map, map.arcs))
-            .attr("fill", "none")
+            .attr("fill", 255,255,255)
             .attr("stroke", "#000")
-            .attr("stroke-opacity", 0.3)
+            .attr("stroke-opacity", 1)
             .attr("d", pathJPN);
       });
       
