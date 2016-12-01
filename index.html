@@ -37,6 +37,11 @@
         }
         .path {
         }
+        .three-col {
+            -webkit-column-count: 3;
+            -webkit-column-gap: 20px;
+            column-span: all;
+        }
     </style>
   </head>
   <body>
@@ -155,14 +160,41 @@
     
     <!-- Submission Info -->
     <div id="context"></div>
-    <h4>Created by Karl Cassel and Amado Rubalcava</h4>
-      
+    <h4>Created by Karl Cassel and Amado Rubalcava in collaboration with Suresh K Lodha and Ryan Brounley.</h4>
+    
     <h4>Description: A visualization of (wip) </h4>
-      
-    <h4> Sources: </h4>
-    <ul>
-      <li> <a href="http://learnjsdata.com/read_data.html">How we read mutliple pieces of data.</a></li>
-    </ul>
-      
+    
+    <div id="three-col">
+        <h4>Files Submitted: 
+            <ul>
+                <li>index.html</li>
+                <li>Pop_USA.csv</li>
+                <li>Pop_Japan2.csv</li>
+                <li>Pop_India2.csv</li>
+                <li>USA.json</li>
+                <li>Japan.json</li>
+                <li>India.json</li>
+                <li>USA_adm1.shp</li>
+                <li>USA_adm1.dbf</li>
+                <li>JPN_adm1.shp</li>
+                <li>JPN_adm1.dbf</li>
+                <li>IND_adm1.shp</li>
+                <li>IND_adm1.dbf</li>
+            </ul>
+        </h4>
+
+        <h4>Data Sources:
+            <ul>
+                <li><a href="http://www.census.gov/2010census/data/apportionment-pop-text.php">USA</a></li>
+                <li><a href="http://www.stat.go.jp/english/data/nenkan/pdf/yhyou02.pdf">Japan</a></li>
+                <li><a href="http://www.census2011.co.in/">India</a></li>
+            </ul>
+        </h4>
+
+        <h4> Sources: </h4>
+        <ul>
+          <li> <a href="http://learnjsdata.com/read_data.html">How we read mutliple pieces of data.</a></li>
+        </ul>
+    </div>
   </body>
 </html>
