@@ -40,6 +40,9 @@
         .info {
             background-color: lightgrey;
         }
+        .legend {
+            font-size: 12px;
+        }
     </style>
   </head>
   <body>
@@ -80,9 +83,14 @@
           .scale(600)
           .center([100, 39])
           .translate([width / 2, height / 2]);
+      
       var pathIND = d3.geoPath(projectionIND);
       var pathUSA = d3.geoPath(projectionUSA);
       var pathJPN = d3.geoPath(projectionJPN);
+      
+      var ext_color_domain = [0, 50, 150, 350, 750, 1500]
+      var legend_labels = ["-3", "-2", "-1", "0", "10+", "20+", "30+", "40+", "50+"]
+      
       var color = d3.scaleThreshold()
           .domain([ -3,-2,-1, 0, 10, 20, 30, 40, 50])
           .range(["A81305","BE2A1F","D44139", "EA5853","6CEB6B","51C352","369B3A","1B7322","014B0A"]);
@@ -103,12 +111,18 @@
           .enter().append("path")
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathIND({type: "FeatureCollection", features: d.values}); });
-        svg.append("path")
-            .datum(topojson.feature(map, map.arcs))
-            .attr("fill", "none")
-            .attr("stroke", "#000")
-            .attr("stroke-opacity", 0.3)
-            .attr("d", pathIND);
+//        svg.append("path")
+//            .datum(topojson.feature(map, map.arcs))
+//            .attr("fill", "none")
+//            .attr("stroke", "#000")
+//            .attr("stroke-opacity", 0.3)
+//            .attr("d", path);
+          svg.selectAll("path")
+              .datum(topojson.feature(map, map.objects))
+              .append("path")
+              .attr("d", pathIND)
+              .style("stroke", "#000")
+              .style("stroke-width", "1");
       });
       d3.json("USA.json", function(error, map) {
         if (error) throw error;
@@ -126,7 +140,7 @@
           .attr("d", function(d) { return pathUSA({type: "FeatureCollection", features: d.values}); });
         svg.append("path")
             .datum(topojson.feature(map, map.arcs))
-            .attr("fill", "none")
+//            .attr("fill", "none")
             .attr("stroke", "#000")
             .attr("stroke-opacity", 0.3)
             .attr("d", pathUSA);
@@ -152,6 +166,26 @@
             .attr("stroke-opacity", 0.9)
             .attr("d", pathJPN);
       });
+      
+      var legend = svg.selectAll("g.legend")
+          .data([ -3,-2,-1, 0, 10, 20, 30, 40, 50])
+          .enter().append("g")
+          .attr("class", "legend");
+      
+      var ls_w = 20, ls_h = 20;
+      
+      legend.append("rect")
+        .attr("x", 20)
+        .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+        .attr("width", ls_w)
+        .attr("height", ls_h)
+        .style("fill", function(d, i) { return color(d); })
+        .style("opacity", 0.8);
+
+      legend.append("text")
+        .attr("x", 50)
+        .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
+        .text(function(d, i){ return legend_labels[i]; });
       
     </script>
     
@@ -195,6 +229,7 @@
         <h4> Sources: </h4>
         <ul>
           <li> <a href="http://learnjsdata.com/read_data.html">How we read mutliple pieces of data.</a></li>
+          <li> <a href="http://bl.ocks.org/KoGor/5685876">How we made the legend.</a></li>
         </ul>
     </div>
   </body>
