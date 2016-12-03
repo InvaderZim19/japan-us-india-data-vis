@@ -21,24 +21,21 @@
     	.IND_adm1-border {
     	  fill: none;
     	  stroke: #000;
-    	  stroke-opacity: .3;
+    	  stroke-opacity: .4;
+          stroke-width: 0.25px;
     	}
         .USA_adm1-border {
     	  fill: none;
     	  stroke: #000;
-    	  stroke-opacity: .3;
+    	  stroke-opacity: .4;
+          stroke-width: 0.25px;
     	}
         .JPN_adm1-border {
     	  fill: none;
     	  stroke: #000;
-    	  stroke-opacity: .3;
+    	  stroke-opacity: .4;
+          stroke-width: 0.25px;
     	}
-            
-        .tract-border {
-          fill: none;
-          stroke: #000;
-          stroke-opacity: .9;
-        }
         .pathIND {
             fill: none;
             stroke: #000;
@@ -151,7 +148,7 @@
           .enter().append("path")
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathUSA({type: "FeatureCollection", features: d.values}); });
-        svg.append("path")
+        svg.append("path", ".graticule")
             .datum(topojson.mesh(map, map.objects.USA_adm1 ))
             .attr("class","USA_adm1-border")
             .attr("d", pathUSA);
