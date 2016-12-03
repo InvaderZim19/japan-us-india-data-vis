@@ -33,9 +33,12 @@
         .tract-border {
           fill: none;
           stroke: #000;
-          stroke-opacity: .3;
+          stroke-opacity: .9;
         }
-        .path {
+        .pathIND {
+            fill: none;
+            stroke: #000;
+            stroke-linejoin: round;
         }
         .info {
             background-color: lightgrey;
@@ -71,7 +74,7 @@
         
       var projectionIND = d3.geoMercator()
           .scale(450)
-          .center([70, 26])
+          .center([77, 26])
           .translate([width / 2, height / 2]);
       
       var projectionUSA = d3.geoMercator()
@@ -81,7 +84,7 @@
       
       var projectionJPN = d3.geoMercator()
           .scale(600)
-          .center([100, 39])
+          .center([110, 39])
           .translate([width / 2, height / 2]);
       
       var pathIND = d3.geoPath(projectionIND);
@@ -93,7 +96,7 @@
       
       var color = d3.scaleThreshold()
           .domain([ -3,-2,-1, 0, 10, 20, 30, 40, 50])
-          .range(["A81305","BE2A1F","D44139", "EA5853","6CEB6B","51C352","369B3A","1B7322","014B0A"]);
+          .range(["A81305","BE2A1F","D44139", "EA5853","6CEB6B","51C352","369B3A","1B7322","014B0A","01410D"]);
       var g = svg.append("g")
           .attr("class", "key")
           .attr("transform", "translate(0,40)");
@@ -111,18 +114,17 @@
           .enter().append("path")
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathIND({type: "FeatureCollection", features: d.values}); });
-//        svg.append("path")
-//            .datum(topojson.feature(map, map.arcs))
-//            .attr("fill", "none")
-//            .attr("stroke", "#000")
-//            .attr("stroke-opacity", 0.3)
-//            .attr("d", path);
+        //svg.append("path")
+            //.datum(topojson.feature(map, map.arcs))
+            //.attr("fill", "none")
+            //.attr("stroke", "#000")
+            //.attr("stroke-opacity", 0.3)
+            //.attr("d", path);
           svg.selectAll("path")
-              .datum(topojson.feature(map, map.objects))
               .append("path")
+              .datum(topojson.mesh(map, map.objects.IND_adm1))
               .attr("d", pathIND)
-              .style("stroke", "#000")
-              .style("stroke-width", "1");
+        
       });
       d3.json("USA.json", function(error, map) {
         if (error) throw error;
@@ -181,7 +183,6 @@
         .attr("height", ls_h)
         .style("fill", function(d, i) { return color(d); })
         .style("opacity", 0.8);
-
       legend.append("text")
         .attr("x", 50)
         .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
@@ -234,3 +235,5 @@
     </div>
   </body>
 </html>
+Contact GitHub API Training Shop Blog About
+© 2016 GitHub, Inc. Terms Privacy Security Status Help
