@@ -46,6 +46,9 @@
         .legend {
             font-size: 12px;
         }
+        .y-axis {
+            font: 9px sans-serif;
+        } 
     </style>
   </head>
   <body>
@@ -183,10 +186,20 @@
         .attr("height", ls_h)
         .style("fill", function(d, i) { return color(d); })
         .style("opacity", 0.8);
+      
       legend.append("text")
         .attr("x", 50)
         .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
         .text(function(d, i){ return legend_labels[i]; });
+      
+      legend.append("text")
+        .attr("class", "y-axis")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -((height - ls_h - 175)))
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .style("text-anchor", "end")
+        .text("Percentage Change of Growth (2010-2020)");
       
     </script>
     
@@ -229,8 +242,9 @@
 
         <h4> Sources: </h4>
         <ul>
-          <li> <a href="http://learnjsdata.com/read_data.html">How we read mutliple pieces of data.</a></li>
-          <li> <a href="http://bl.ocks.org/KoGor/5685876">How we made the legend.</a></li>
+          <li> <a href="http://learnjsdata.com/read_data.html">Reading multiple pieces of data.</a></li>
+          <li> <a href="http://bl.ocks.org/KoGor/5685876">Legend creation</a></li>
+          <li> <a href="http://stackoverflow.com/questions/31892129/d3-js-rotate-text-to-vertical">Putting text for the legend.</a></li>
         </ul>
     </div>
   </body>
