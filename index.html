@@ -11,13 +11,6 @@
     	.caption {
     	  font-weight: bold;
     	}
-    	.key path {
-    	  display: none;
-    	}
-    	.key line {
-    	  stroke: #000;
-    	  shape-rendering: crispEdges;
-    	}
     	.IND_adm1-border {
     	  fill: none;
     	  stroke: #000;
@@ -59,16 +52,23 @@
         }
         .y-axis {
             font: 9px sans-serif;
-        } 
+        }
+      
+        .hidden {
+            display: none;
+        }
+        div.tooltip {
+            color: #222;
+            background-color: #000;
+            padding: .5em;
+            text-shadow: #f5f5f5 0 1px 0;
+            border-radius: 2px;
+            opacity: 0.5;
+            position: absolute;
+        }
     </style>
   </head>
   <body>
-<!--
-  	<script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="https://d3js.org/topojson.v1.min.js"></script>
-    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
--->
-    
     <h1 style = "text-align:center; color:black"><bold>Population Growth in India, Japan and the United States.(2010-2020) </bold></h1>
     <svg width="1000" height="500"></svg>
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -83,8 +83,9 @@
       var svg = d3.select("svg"),
           width = 1100;
           height = 500;
-        
-        var scaleVal = 0.5;
+      
+      var tooltip = d3.select('body').append('div')
+            .attr('class', 'hidden tooltip');
         
       var projectionIND = d3.geoMercator()
           .scale(450)
@@ -126,6 +127,18 @@
           .key(function(d) { return color(d.properties.percentage); })
           .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
+          .on('mousemove', function(d) {
+                    var mouse = d3.mouse(svg.node()).map(function(d) {
+                        return parseInt(d);
+                    });
+                    tooltip.classed('hidden', false)
+                        .attr('style', 'left:' + (mouse[0] + 15) +
+                                'px; top:' + (mouse[1] - 35) + 'px')
+                        .html(d.id);
+                })
+                .on('mouseout', function() {
+                    tooltip.classed('hidden', true);
+                })
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathIND({type: "FeatureCollection", features: d.values}); });
           svg.append("path")
@@ -137,7 +150,6 @@
       d3.json("USA.json", function(error, map) {
         if (error) throw error;
         var tracts = topojson.feature(map, map.objects.USA_adm1);
-        console.log(map)
           svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
