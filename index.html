@@ -18,24 +18,38 @@
     	  stroke: #000;
     	  shape-rendering: crispEdges;
     	}
-    	.county-border {
+    	.IND_adm1-border {
+    	  fill: none;
+    	  stroke: #000;
+    	  stroke-opacity: .3;
+    	}
+        .USA_adm1-border {
+    	  fill: none;
+    	  stroke: #000;
+    	  stroke-opacity: .3;
+    	}
+        .JPN_adm1-border {
     	  fill: none;
     	  stroke: #000;
     	  stroke-opacity: .3;
     	}
             
-        .state-border {
-          fill: none;
-          stroke: #000;
-          stroke-opacity: 1;
-        }
-      
         .tract-border {
           fill: none;
           stroke: #000;
           stroke-opacity: .9;
         }
         .pathIND {
+            fill: none;
+            stroke: #000;
+            stroke-linejoin: round;
+        }
+        .pathJPN {
+            fill: none;
+            stroke: #000;
+            stroke-linejoin: round;
+        }
+        .pathUSA {
             fill: none;
             stroke: #000;
             stroke-linejoin: round;
@@ -117,15 +131,9 @@
           .enter().append("path")
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathIND({type: "FeatureCollection", features: d.values}); });
-        //svg.append("path")
-            //.datum(topojson.feature(map, map.arcs))
-            //.attr("fill", "none")
-            //.attr("stroke", "#000")
-            //.attr("stroke-opacity", 0.3)
-            //.attr("d", path);
-          svg.selectAll("path")
-              .append("path")
-              .datum(topojson.mesh(map, map.objects.IND_adm1))
+          svg.append("path")
+              .datum(topojson.mesh(map, map.objects.IND_adm1 ))
+              .attr("class","IND_adm1-border")
               .attr("d", pathIND)
         
       });
@@ -144,10 +152,8 @@
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathUSA({type: "FeatureCollection", features: d.values}); });
         svg.append("path")
-            .datum(topojson.feature(map, map.arcs))
-//            .attr("fill", "none")
-            .attr("stroke", "#000")
-            .attr("stroke-opacity", 0.3)
+            .datum(topojson.mesh(map, map.objects.USA_adm1 ))
+            .attr("class","USA_adm1-border")
             .attr("d", pathUSA);
       });
       
@@ -165,10 +171,8 @@
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathJPN({type: "FeatureCollection", features: d.values}); });
         svg.append("path")
-            .datum(topojson.feature(map, map.arcs))
-            .attr("fill", 255,255,255)
-            .attr("stroke", "#000")
-            .attr("stroke-opacity", 0.9)
+            .datum(topojson.mesh(map, map.objects.JPN_adm1 ))
+            .attr("class","JPN_adm1-border")
             .attr("d", pathJPN);
       });
       
@@ -249,5 +253,3 @@
     </div>
   </body>
 </html>
-Contact GitHub API Training Shop Blog About
-© 2016 GitHub, Inc. Terms Privacy Security Status Help
