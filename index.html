@@ -57,14 +57,15 @@
         .hidden {
             display: none;
         }
-        div.tooltip {
-            color: #222;
-            background-color: #000;
-            padding: .5em;
-            text-shadow: #f5f5f5 0 1px 0;
-            border-radius: 2px;
-            opacity: 0.5;
+        .tooltip {
             position: absolute;
+            width: auto;
+            height: auto;
+            border-radius: 10px;
+            border-bottom: 1px;
+            padding: 6px 12px;
+            background-color: antiquewhite;
+            pointer-events: none;
         }
     </style>
   </head>
@@ -119,6 +120,11 @@
       d3.json("India.json", function(error, map) {
         if (error) throw error;
         var tracts = topojson.feature(map, map.objects.IND_adm1);
+        
+        var tooltip = d3.select("#context").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+        
          svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
@@ -127,25 +133,27 @@
           .key(function(d) { return color(d.properties.percentage); })
           .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
-          .on('mousemove', function(d) {
-                    var mouse = d3.mouse(svg.node()).map(function(d) {
-                        return parseInt(d);
-                    });
-                    tooltip.classed('hidden', false)
-                        .attr('style', 'left:' + (mouse[0] + 15) +
-                                'px; top:' + (mouse[1] - 35) + 'px')
-                        .html(d.id);
-                })
-                .on('mouseout', function() {
-                    tooltip.classed('hidden', true);
-                })
+          .on("mouseover", function(d) {
+              console.log(d);
+              tooltip.transition()
+                  .style("opacity", .9)
+                  .style("background-color", "#" + d.key)
+              tooltip.html(d.key)
+                  .style("left", (d3.event.pageX + 5) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+          })
+          .on("mouseout", function(d) {
+              tooltip.transition()
+//                  .duration(500)
+                  .style("opacity", 0);
+          })
+          
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathIND({type: "FeatureCollection", features: d.values}); });
           svg.append("path")
-              .datum(topojson.mesh(map, map.objects.IND_adm1 ))
+              .datum(topojson.mesh(map, map.objects.IND_adm1))
               .attr("class","IND_adm1-border")
               .attr("d", pathIND)
-        
       });
       d3.json("USA.json", function(error, map) {
         if (error) throw error;
