@@ -15,19 +15,19 @@
     	  fill: none;
     	  stroke: #000;
     	  stroke-opacity: .4;
-          stroke-width: 0.25px;
+/*          stroke-width: 0.4px;*/
     	}
         .USA_adm1-border {
     	  fill: none;
     	  stroke: #000;
     	  stroke-opacity: .4;
-          stroke-width: 0.25px;
+/*          stroke-width: 0.4px;*/
     	}
         .JPN_adm1-border {
     	  fill: none;
     	  stroke: #000;
     	  stroke-opacity: .4;
-          stroke-width: 0.25px;
+/*          stroke-width: 0.4px;*/
     	}
         .pathIND {
             fill: none;
@@ -61,9 +61,9 @@
             position: absolute;
             width: auto;
             height: auto;
-            border-radius: 10px;
-            border-bottom: 1px;
-            padding: 6px 12px;
+            border: 2px solid #000000;
+            border-radius: 5px;
+            padding: 3px 6px;
             background-color: antiquewhite;
             pointer-events: none;
         }
@@ -84,9 +84,6 @@
       var svg = d3.select("svg"),
           width = 1100;
           height = 500;
-      
-      var tooltip = d3.select('body').append('div')
-            .attr('class', 'hidden tooltip');
         
       var projectionIND = d3.geoMercator()
           .scale(450)
@@ -144,7 +141,6 @@
           })
           .on("mouseout", function(d) {
               tooltip.transition()
-//                  .duration(500)
                   .style("opacity", 0);
           })
           
@@ -158,6 +154,11 @@
       d3.json("USA.json", function(error, map) {
         if (error) throw error;
         var tracts = topojson.feature(map, map.objects.USA_adm1);
+        
+        var tooltip = d3.select("#context").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+        
           svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
@@ -166,6 +167,19 @@
           .key(function(d) { return color(d.properties.percentage); })
           .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
+          .on("mouseover", function(d) {
+              console.log(d);
+              tooltip.transition()
+                  .style("opacity", .9)
+                  .style("background-color", "#" + d.key)
+              tooltip.html(d.key)
+                  .style("left", (d3.event.pageX + 5) + "px")
+                  .style("top", (d3.event.pageY - 28) + "px");
+          })
+          .on("mouseout", function(d) {
+              tooltip.transition()
+                  .style("opacity", 0);
+          })
           .style("fill", function(d) { return d.key; })
           .attr("d", function(d) { return pathUSA({type: "FeatureCollection", features: d.values}); });
         svg.append("path", ".graticule")
