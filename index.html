@@ -122,29 +122,26 @@
         .attr("class", "tooltip")
         .style("opacity", 0);
         
-         svg.append("g")
+          svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
           .selectAll("path")
           .data(d3.nest()
-          .key(function(d) { return color(d.properties.percentage); })
+          .key(function(d) { return d.properties.name; })
           .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
           .on("mouseover", function(d) {
-              console.log(d);
-              tooltip.transition()
-                  .style("opacity", .9)
-                  .style("background-color", "#" + d.key)
-              tooltip.html(d.key)
-                  .style("left", (d3.event.pageX + 5) + "px")
-                  .style("top", (d3.event.pageY - 28) + "px");
+              tooltip.style("opacity", .9)
+                    .style("background-color", this.style.fill)
+                    .text(d.key)
+                    .style("left", (d3.event.pageX + 5) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
           })
           .on("mouseout", function(d) {
-              tooltip.transition()
-                  .style("opacity", 0);
+              
+              tooltip.style("opacity", 0);
           })
-          
-          .style("fill", function(d) { return d.key; })
+          .style("fill", function(d) { return color(d.values[0].properties.percentage); })
           .attr("d", function(d) { return pathIND({type: "FeatureCollection", features: d.values}); });
           svg.append("path")
               .datum(topojson.mesh(map, map.objects.IND_adm1))
@@ -164,23 +161,22 @@
           .attr("clip-path", "url(#clip-land)")
           .selectAll("path")
           .data(d3.nest()
-          .key(function(d) { return color(d.properties.percentage); })
+          .key(function(d) { return d.properties.name; })
           .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
           .on("mouseover", function(d) {
-              console.log(d);
-              tooltip.transition()
-                  .style("opacity", .9)
-                  .style("background-color", "#" + d.key)
-              tooltip.html(d.key)
-                  .style("left", (d3.event.pageX + 5) + "px")
-                  .style("top", (d3.event.pageY - 28) + "px");
+              
+              tooltip.style("opacity", .9)
+                    .style("background-color", this.style.fill)
+                    .text(d.key)
+                    .style("left", (d3.event.pageX + 5) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
           })
           .on("mouseout", function(d) {
-              tooltip.transition()
-                  .style("opacity", 0);
+              
+              tooltip.style("opacity", 0);
           })
-          .style("fill", function(d) { return d.key; })
+          .style("fill", function(d) { return color(d.values[0].properties.percentage); })
           .attr("d", function(d) { return pathUSA({type: "FeatureCollection", features: d.values}); });
         svg.append("path", ".graticule")
             .datum(topojson.mesh(map, map.objects.USA_adm1 ))
@@ -191,17 +187,34 @@
       d3.json("Japan.json", function(error, map) {
         if (error) throw error;
         var tracts = topojson.feature(map, map.objects.JPN_adm1);
-         svg.append("g")
+        
+        var tooltip = d3.select("#context").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+        
+          svg.append("g")
           .attr("class", "tract")
           .attr("clip-path", "url(#clip-land)")
           .selectAll("path")
           .data(d3.nest()
-          .key(function(d) { return color(d.properties.percentage); })
+          .key(function(d) { return d.properties.name; })
           .entries(tracts.features.filter(function(d) { return d.properties.percentage; })))
           .enter().append("path")
-          .style("fill", function(d) { return d.key; })
+          .on("mouseover", function(d) {
+              
+              tooltip.style("opacity", .9)
+                    .style("background-color", this.style.fill)
+                    .text(d.key)
+                    .style("left", (d3.event.pageX + 5) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px");
+          })
+          .on("mouseout", function(d) {
+              
+              tooltip.style("opacity", 0);
+          })
+          .style("fill", function(d) { return color(d.values[0].properties.percentage); })
           .attr("d", function(d) { return pathJPN({type: "FeatureCollection", features: d.values}); });
-        svg.append("path")
+        svg.append("path", ".graticule")
             .datum(topojson.mesh(map, map.objects.JPN_adm1 ))
             .attr("class","JPN_adm1-border")
             .attr("d", pathJPN);
