@@ -86,17 +86,17 @@
           height = 500;
         
       var projectionIND = d3.geoMercator()
-          .scale(450)
-          .center([77, 26])
+          .scale(550)
+          .center([115, 26])
           .translate([width / 2, height / 2]);
       
       var projectionUSA = d3.geoMercator()
-          .scale(300)
-          .center([-40, 45])
+          .scale(350)
+          .center([-101, 45])
           .translate([width / 2, height / 2]);
-      
+    
       var projectionJPN = d3.geoMercator()
-          .scale(600)
+          .scale(650)
           .center([110, 39])
           .translate([width / 2, height / 2]);
       
@@ -133,7 +133,7 @@
           .on("mouseover", function(d) {
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .text(d.key)
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2011:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2011]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
@@ -168,7 +168,7 @@
               
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .text(d.key)
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2010]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
@@ -204,7 +204,7 @@
               
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .text(d.key)
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2010]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
