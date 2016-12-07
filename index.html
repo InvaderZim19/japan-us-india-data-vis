@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html> 
   <head>
-    <!-- Meta Tag -->
     <meta charset="utf-8">
-    <!-- CSS Stylesheet -->
     <style type="text/css">
         svg {
     	   font: 10px sans-serif;
@@ -15,20 +13,17 @@
     	  fill: none;
     	  stroke: #000;
     	  stroke-opacity: .4;
-/*          stroke-width: 0.4px;*/
     	}
         .USA_adm1-border {
     	  fill: none;
     	  stroke: #000;
     	  stroke-opacity: .4;
-/*          stroke-width: 0.4px;*/
           stroke-linejoin: round;
     	}
         .JPN_adm1-border {
     	  fill: none;
     	  stroke: #000;
     	  stroke-opacity: .4;
-/*          stroke-width: 0.4px;*/
     	}
         .pathIND {
             fill: none;
@@ -111,7 +106,6 @@
       var pathUSA = d3.geoPath(projectionUSA);
       var pathJPN = d3.geoPath(projectionJPN);
       
-      var ext_color_domain = [0, 50, 150, 350, 750, 1500]
       var legend_labels = ["-3", "-2", "-1", "0", "10+", "20+", "30+", "40+", "50+"]
       
       var color = d3.scaleThreshold()
@@ -140,7 +134,7 @@
           .on("mouseover", function(d) {
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2011:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2011]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "</span></div>")
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2011:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2011]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" +"</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
@@ -211,12 +205,11 @@
               
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2010]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "</span></div>")
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2010]+ "M"+"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "M"+"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" +"</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
           .on("mouseout", function(d) {
-              
               tooltip.style("opacity", 0);
           })
           .style("fill", function(d) { return color(d.values[0].properties.percentage); })
