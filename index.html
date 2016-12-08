@@ -141,7 +141,7 @@
           .on("mouseover", function(d) {
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2011:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2011]+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" +"</span></div>")
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2011:</span><span style='float:right; margin-left:5px;'>" +(d.values["0"].properties[2011] / 1000000).toFixed(2)+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +(d.values["0"].properties[2020] / 1000000).toFixed(2)+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" +"</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
@@ -176,7 +176,7 @@
               
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2010]+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" + "</span></div>")
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +(d.values["0"].properties[2010] / 1000000).toFixed(2)+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +(d.values["0"].properties[2020] / 1000000).toFixed(2)+ "M" +"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" + "</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
@@ -212,7 +212,7 @@
               
               tooltip.style("opacity", .9)
                     .style("background-color", this.style.fill)
-                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2010]+ "M"+"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties[2020]+ "M"+"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" +"</span></div>")
+                    .html("<div style='text-align:center'>" +d.key+ "</div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2010:</span><span style='float:right; margin-left:5px;'>" +(d.values["0"].properties[2010] / 1000000).toFixed(2)+ "M"+"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Population 2020:</span><span style='float:right; margin-left:5px;'>" +(d.values["0"].properties[2020] / 1000000).toFixed(2)+ "M"+"</span></div><div style=''><span style='text-align:left; margin-right:5px;'>Percentage Growth:</span><span style='float:right; margin-left:5px;'>" +d.values["0"].properties.percentage+ "%" +"</span></div>")
                     .style("left", (d3.event.pageX + 5) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
           })
